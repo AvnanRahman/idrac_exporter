@@ -65,6 +65,9 @@ type MetricsConfig struct {
 	Extra struct {
 		Enabled bool `yaml:"enabled"`
 	} `yaml:"extra"`
+	PCIe struct {
+		Enabled bool `yaml:"enabled"`
+	} `yaml:"pcie"`
 }
 
 type TLSConfig struct {

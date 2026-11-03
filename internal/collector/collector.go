@@ -127,6 +127,10 @@ type Collector struct {
 	DellControllerBatteryHealth   *prometheus.Desc
 	DellManagerLicenseInfo        *prometheus.Desc
 
+	// PCIe devices
+	PCIeDeviceInfo   *prometheus.Desc
+	PCIeDeviceHealth *prometheus.Desc
+
 	// PDU
 	PduInfo            *prometheus.Desc
 	PduHealth          *prometheus.Desc
@@ -514,6 +518,16 @@ func NewCollector() *Collector {
 			"Information about licenses installed on the manager",
 			[]string{"id", "description", "type", "status", "device"}, nil,
 		),
+		PCIeDeviceInfo: prometheus.NewDesc(
+			prometheus.BuildFQName(prefix, "pcie_device", "info"),
+			"Information about PCIe devices",
+			[]string{"id", "name", "manufacturer", "model", "part_number", "serial", "slot", "firmware"}, nil,
+		),
+		PCIeDeviceHealth: prometheus.NewDesc(
+			prometheus.BuildFQName(prefix, "pcie_device", "health"),
+			"Health status for PCIe devices",
+			[]string{"id", "status"}, nil,
+		),
 		PduInfo: prometheus.NewDesc(
 			prometheus.BuildFQName(prefix, "pdu", "info"),
 			"Information about the PDU",
@@ -629,6 +643,8 @@ func (collector *Collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- collector.DellEstimatedSystemAirflowCFM
 	ch <- collector.DellControllerBatteryHealth
 	ch <- collector.DellManagerLicenseInfo
+	ch <- collector.PCIeDeviceInfo
+	ch <- collector.PCIeDeviceHealth
 	ch <- collector.PduInfo
 	ch <- collector.PduHealth
 	ch <- collector.PduPowerWatts
@@ -734,6 +750,15 @@ func (collector *Collector) CollectServer(ch chan<- prometheus.Metric) {
 	if metrics.Extra.Enabled {
 		wg.Go(func() {
 			ok := collector.client.RefreshDell(collector, ch)
+			if !ok {
+				collector.errors.Add(1)
+			}
+		})
+	}
+
+	if metrics.PCIe.Enabled {
+		wg.Go(func() {
+			ok := collector.client.RefreshPCIeDevices(collector, ch)
 			if !ok {
 				collector.errors.Add(1)
 			}

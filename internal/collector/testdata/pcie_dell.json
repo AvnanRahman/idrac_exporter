@@ -1,0 +1,203 @@
+{
+  "/redfish/v1/Systems/System.Embedded.1": {
+    "@odata.id": "/redfish/v1/Systems/System.Embedded.1",
+    "Id": "System.Embedded.1",
+    "Manufacturer": "Dell Inc.",
+    "PCIeDevices": [
+      {
+        "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/0-31"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/103-0"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/158-0"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/192-0"
+      }
+    ]
+  },
+  "/redfish/v1/Chassis": {
+    "@odata.id": "/redfish/v1/Chassis",
+    "Members": [
+      {
+        "@odata.id": "/redfish/v1/Chassis/System.Embedded.1"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/Enclosure.Internal.0-1"
+      }
+    ]
+  },
+  "/redfish/v1/Chassis/System.Embedded.1": {
+    "@odata.id": "/redfish/v1/Chassis/System.Embedded.1",
+    "Id": "System.Embedded.1",
+    "ChassisType": "RackMount",
+    "PCIeDevices": {
+      "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices"
+    }
+  },
+  "/redfish/v1/Chassis/Enclosure.Internal.0-1": {
+    "@odata.id": "/redfish/v1/Chassis/Enclosure.Internal.0-1",
+    "Id": "Enclosure.Internal.0-1",
+    "ChassisType": "StorageEnclosure",
+    "PCIeDevices": {
+      "@odata.id": "/redfish/v1/Chassis/Enclosure.Internal.0-1/PCIeDevices"
+    }
+  },
+  "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices": {
+    "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices",
+    "@odata.type": "#PCIeDeviceCollection.PCIeDeviceCollection",
+    "Name": "PCIe Device Collection",
+    "Members@odata.count": 4,
+    "Members": [
+      {
+        "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/0-31"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/103-0"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/158-0"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/192-0"
+      }
+    ]
+  },
+  "/redfish/v1/Chassis/Enclosure.Internal.0-1/PCIeDevices": {
+    "@odata.id": "/redfish/v1/Chassis/Enclosure.Internal.0-1/PCIeDevices",
+    "@odata.type": "#PCIeDeviceCollection.PCIeDeviceCollection",
+    "Name": "PCIe Device Collection",
+    "Members@odata.count": 0,
+    "Members": []
+  },
+  "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/0-31": {
+    "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/0-31",
+    "@odata.type": "#PCIeDevice.v1_11_1.PCIeDevice",
+    "Id": "0-31",
+    "Name": "Intel Corporation",
+    "Description": "Intel Corporation",
+    "DeviceType": "MultiFunction",
+    "Model": null,
+    "Manufacturer": "Intel Corporation",
+    "PartNumber": null,
+    "SKU": null,
+    "SerialNumber": null,
+    "FirmwareVersion": "",
+    "Status": {
+      "State": "Enabled",
+      "Health": "OK",
+      "HealthRollup": "OK"
+    },
+    "Slot": {}
+  },
+  "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/103-0": {
+    "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/103-0",
+    "@odata.type": "#PCIeDevice.v1_11_1.PCIeDevice",
+    "Id": "103-0",
+    "Name": "MT2910 Family [ConnectX-7]",
+    "Description": "MT2910 Family [ConnectX-7]",
+    "DeviceType": "SingleFunction",
+    "Model": null,
+    "Manufacturer": "Mellanox Technologies",
+    "PartNumber": null,
+    "SKU": null,
+    "SerialNumber": null,
+    "FirmwareVersion": "28.39.10.02",
+    "Status": {
+      "State": "Enabled",
+      "Health": "OK",
+      "HealthRollup": "OK"
+    },
+    "Slot": {
+      "Lanes": 16,
+      "Location": {
+        "PartLocation": {
+          "LocationOrdinalValue": 36,
+          "LocationType": "Slot"
+        }
+      },
+      "PCIeType": "Gen5",
+      "SlotType": "HalfLength"
+    },
+    "PCIeInterface": {
+      "MaxPCIeType": "Gen5",
+      "PCIeType": "Gen5",
+      "MaxLanes": 16,
+      "LanesInUse": 16
+    }
+  },
+  "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/158-0": {
+    "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/158-0",
+    "@odata.type": "#PCIeDevice.v1_11_1.PCIeDevice",
+    "Id": "158-0",
+    "Name": "MT43244 BlueField-3 integrated ConnectX-7 network controller",
+    "Description": "MT43244 BlueField-3 integrated ConnectX-7 network controller",
+    "DeviceType": "MultiFunction",
+    "Model": "BlueField-3 SmartNIC Main Card",
+    "Manufacturer": "Mellanox Technologies",
+    "PartNumber": "900-9D3B6-00CV-AA0",
+    "SKU": null,
+    "SerialNumber": "TESTSN0003                 ",
+    "FirmwareVersion": "32.38.3056",
+    "Status": {
+      "State": "Enabled",
+      "Health": "OK",
+      "HealthRollup": "OK"
+    },
+    "Slot": {
+      "Lanes": 16,
+      "Location": {
+        "PartLocation": {
+          "LocationOrdinalValue": 31,
+          "LocationType": "Slot"
+        }
+      },
+      "PCIeType": "Gen5",
+      "SlotType": "HalfLength"
+    },
+    "PCIeInterface": {
+      "MaxPCIeType": "Gen5",
+      "PCIeType": "Gen5",
+      "MaxLanes": 16,
+      "LanesInUse": 16
+    }
+  },
+  "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/192-0": {
+    "@odata.id": "/redfish/v1/Chassis/System.Embedded.1/PCIeDevices/192-0",
+    "@odata.type": "#PCIeDevice.v1_11_1.PCIeDevice",
+    "Id": "192-0",
+    "Name": "GH100 [H100 SXM5 80GB]",
+    "Description": "GH100 [H100 SXM5 80GB]",
+    "DeviceType": "SingleFunction",
+    "Model": "H100 80GB HBM3",
+    "Manufacturer": "NVIDIA Corporation",
+    "PartNumber": "699-2G520-0200-400",
+    "SKU": null,
+    "SerialNumber": "TESTSN0004",
+    "FirmwareVersion": "",
+    "Status": {
+      "State": "Enabled",
+      "Health": "OK",
+      "HealthRollup": "OK"
+    },
+    "Slot": {
+      "Lanes": 16,
+      "Location": {
+        "PartLocation": {
+          "LocationOrdinalValue": 21,
+          "LocationType": "Slot"
+        }
+      },
+      "PCIeType": "Gen5",
+      "SlotType": null
+    },
+    "PCIeInterface": {
+      "MaxPCIeType": "Gen5",
+      "PCIeType": "Gen5",
+      "MaxLanes": 16,
+      "LanesInUse": 16
+    }
+  }
+}

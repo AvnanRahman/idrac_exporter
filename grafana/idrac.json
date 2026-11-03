@@ -164,7 +164,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "idrac_system_health{instance=~\"$instance\", job=~\"$job\"}",
+          "expr": "idrac_system_health{instance=~\"$instance\", job=~\"$job\", group=~\"$group\"}",
           "format": "table",
           "instant": true,
           "legendFormat": "{{status}}",
@@ -266,7 +266,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "idrac_system_bios_info{instance=\"$instance\", job=~\"$job\"}",
+          "expr": "idrac_system_bios_info{instance=\"$instance\", job=~\"$job\", group=~\"$group\"}",
           "format": "time_series",
           "instant": true,
           "legendFormat": "{{version}}",
@@ -478,7 +478,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_memory_module_info{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "idrac_memory_module_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}",
           "format": "table",
           "instant": true,
           "range": false,
@@ -490,7 +490,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_memory_module_health{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "idrac_memory_module_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -503,7 +503,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_memory_module_capacity_bytes{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "idrac_memory_module_capacity_bytes{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -516,7 +516,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_memory_module_speed_mhz{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "idrac_memory_module_speed_mhz{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -641,7 +641,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "idrac_system_machine_info{instance=\"$instance\", job=~\"$job\"}",
+          "expr": "idrac_system_machine_info{instance=\"$instance\", job=~\"$job\", group=~\"$group\"}",
           "format": "table",
           "instant": true,
           "legendFormat": "{{manufacturer}}",
@@ -798,7 +798,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "idrac_system_memory_size_bytes{instance=\"$instance\", job=~\"$job\"}",
+          "expr": "idrac_system_memory_size_bytes{instance=\"$instance\", job=~\"$job\", group=~\"$group\"}",
           "format": "time_series",
           "instant": true,
           "interval": "",
@@ -1027,7 +1027,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "idrac_system_cpu_count{instance=\"$instance\", job=~\"$job\"}",
+          "expr": "idrac_system_cpu_count{instance=\"$instance\", job=~\"$job\", group=~\"$group\"}",
           "format": "time_series",
           "instant": true,
           "interval": "",
@@ -1116,7 +1116,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "count(idrac_storage_drive_info{instance=\"$instance\", job=~\"$job\"})",
+          "expr": "count(idrac_storage_drive_info{instance=\"$instance\", job=~\"$job\", group=~\"$group\"})",
           "format": "time_series",
           "instant": true,
           "interval": "",
@@ -1219,7 +1219,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "idrac_system_indicator_led_on{instance=\"$instance\", job=~\"$job\"}",
+          "expr": "idrac_system_indicator_led_on{instance=\"$instance\", job=~\"$job\", group=~\"$group\"}",
           "format": "time_series",
           "instant": true,
           "legendFormat": "{{state}}",
@@ -1323,7 +1323,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "idrac_system_power_on{instance=\"$instance\", job=~\"$job\"}",
+          "expr": "idrac_system_power_on{instance=\"$instance\", job=~\"$job\", group=~\"$group\"}",
           "instant": true,
           "legendFormat": "",
           "metrics": [
@@ -1518,7 +1518,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_storage_drive_info{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "idrac_storage_drive_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}",
           "format": "table",
           "instant": true,
           "range": false,
@@ -1530,7 +1530,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_storage_drive_health{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "idrac_storage_drive_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1543,7 +1543,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_storage_drive_capacity_bytes{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "idrac_storage_drive_capacity_bytes{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1773,7 +1773,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_network_port_health{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "idrac_network_port_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}",
           "format": "table",
           "instant": true,
           "range": false,
@@ -1785,7 +1785,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_network_port_link_up{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "idrac_network_port_link_up{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1798,7 +1798,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_network_port_current_speed_mbps{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "idrac_network_port_current_speed_mbps{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1811,7 +1811,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_network_adapter_health{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "idrac_network_adapter_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1979,7 +1979,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg_over_time(idrac_sensors_temperature{instance=~\"$instance\",job=~\"$job\"}[$__rate_interval])",
+          "expr": "avg_over_time(idrac_sensors_temperature{instance=~\"$instance\",job=~\"$job\", group=~\"$group\"}[$__rate_interval])",
           "instant": false,
           "legendFormat": "{{name}}",
           "metrics": [
@@ -2095,7 +2095,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg_over_time(idrac_sensors_fan_speed{instance=~\"$instance\",job=~\"$job\"}[$__rate_interval])",
+          "expr": "avg_over_time(idrac_sensors_fan_speed{instance=~\"$instance\",job=~\"$job\", group=~\"$group\"}[$__rate_interval])",
           "instant": false,
           "legendFormat": "{{name}}",
           "metrics": [
@@ -2234,7 +2234,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "avg_over_time(idrac_power_supply_output_watts{instance=~\"$instance\",job=~\"$job\"}[$__rate_interval])",
+          "expr": "avg_over_time(idrac_power_supply_output_watts{instance=~\"$instance\",job=~\"$job\", group=~\"$group\"}[$__rate_interval])",
           "legendFormat": "Output PSU-{{id}}",
           "metrics": [
             {
@@ -2253,7 +2253,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "avg_over_time(idrac_power_supply_input_watts{instance=~\"$instance\",job=~\"$job\"}[$__rate_interval])",
+          "expr": "avg_over_time(idrac_power_supply_input_watts{instance=~\"$instance\",job=~\"$job\", group=~\"$group\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Input PSU-{{id}}",
           "range": true,
@@ -2330,7 +2330,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(idrac_power_supply_input_voltage{instance=~\"$instance\", job=~\"$job\"})",
+          "expr": "avg(idrac_power_supply_input_voltage{instance=~\"$instance\", job=~\"$job\", group=~\"$group\"})",
           "format": "time_series",
           "instant": true,
           "interval": "",
@@ -2446,7 +2446,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "avg_over_time(idrac_power_control_avg_consumed_watts{instance=~\"$instance\",job=~\"$job\"}[$__rate_interval])",
+          "expr": "avg_over_time(idrac_power_control_avg_consumed_watts{instance=~\"$instance\",job=~\"$job\", group=~\"$group\"}[$__rate_interval])",
           "legendFormat": "{{name}}",
           "metrics": [
             {
@@ -2530,7 +2530,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "idrac_power_control_capacity_watts{id=\"0\",instance=~\"$instance\", job=~\"$job\"}",
+          "expr": "idrac_power_control_capacity_watts{id=\"0\",instance=~\"$instance\", job=~\"$job\", group=~\"$group\"}",
           "format": "time_series",
           "instant": true,
           "interval": "",
@@ -2704,7 +2704,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "last_over_time(idrac_events_log_entry{job=~\"$job\", instance=~\"$instance\"}[$__interval] offset -$__interval) * 1000 < ${__to}\nand \nlast_over_time(idrac_events_log_entry{job=~\"$job\", instance=~\"$instance\"}[$__interval] offset -$__interval) * 1000 > ${__from}",
+          "expr": "last_over_time(idrac_events_log_entry{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}[$__interval] offset -$__interval) * 1000 < ${__to}\nand \nlast_over_time(idrac_events_log_entry{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}[$__interval] offset -$__interval) * 1000 > ${__from}",
           "format": "table",
           "instant": false,
           "interval": "1",
@@ -2794,6 +2794,507 @@
         }
       ],
       "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 47
+      },
+      "id": 40,
+      "panels": [],
+      "title": "GPU / PCIe",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "Number of NVIDIA GPUs (last known during the selected time range). Expected: 8.",
+      "id": 41,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 48
+      },
+      "title": "GPUs",
+      "type": "stat",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 8
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "textMode": "value",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "wideLayout": true,
+        "showPercentChange": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "count(count by (job, instance, id) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range])))",
+          "format": "time_series",
+          "instant": true,
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "pluginVersion": "11.0.0"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "",
+      "id": 42,
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 52
+      },
+      "title": "GPUs not OK",
+      "type": "stat",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "textMode": "value",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "wideLayout": true,
+        "showPercentChange": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "count((last_over_time(idrac_pcie_device_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}[$__range]) * on (job, instance, id) group_left (name, slot) max by (job, instance, id, name, slot) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range]))) > 0) or vector(0)",
+          "format": "time_series",
+          "instant": true,
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "pluginVersion": "11.0.0"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "Last known GPU inventory during the selected time range, so it remains visible while the host is powered off.",
+      "id": 43,
+      "gridPos": {
+        "h": 8,
+        "w": 20,
+        "x": 4,
+        "y": 48
+      },
+      "title": "GPU Inventory",
+      "type": "table",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false,
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true,
+        "footer": {
+          "show": true,
+          "countRows": true,
+          "reducer": [
+            "count"
+          ],
+          "fields": ""
+        },
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "slot"
+          }
+        ]
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range])",
+          "format": "table",
+          "instant": true,
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value": true,
+              "__name__": true,
+              "job": true,
+              "instance": true
+            },
+            "indexByName": {
+              "id": 0,
+              "slot": 1,
+              "name": 2,
+              "model": 3,
+              "manufacturer": 4,
+              "part_number": 5,
+              "serial": 6,
+              "firmware": 7
+            },
+            "renameByName": {
+              "part_number": "part number",
+              "firmware": "firmware"
+            }
+          }
+        }
+      ],
+      "pluginVersion": "11.0.0"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "id": 44,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 56
+      },
+      "title": "GPU Health",
+      "type": "state-timeline",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "OK",
+                  "color": "green",
+                  "index": 0
+                },
+                "1": {
+                  "text": "Warning",
+                  "color": "yellow",
+                  "index": 1
+                },
+                "2": {
+                  "text": "Critical",
+                  "color": "red",
+                  "index": 2
+                },
+                "OK": {
+                  "color": "light-green",
+                  "index": 3
+                },
+                "Warning": {
+                  "color": "light-yellow",
+                  "index": 4
+                },
+                "Critical": {
+                  "color": "light-red",
+                  "index": 5
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 2
+              }
+            ]
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showValue": "never",
+        "mergeValues": true,
+        "alignValue": "left",
+        "rowHeight": 0.9,
+        "legend": {
+          "showLegend": false,
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "idrac_pcie_device_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"} * on (job, instance, id) group_left (name, slot) max by (job, instance, id, name, slot) (idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"})",
+          "format": "time_series",
+          "instant": false,
+          "range": true,
+          "refId": "A",
+          "legendFormat": "{{slot}} {{name}}"
+        }
+      ],
+      "pluginVersion": "11.0.0"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "id": 45,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 64
+      },
+      "title": "All PCIe Devices",
+      "type": "table",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false,
+            "filterable": true
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "status"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "text": "OK",
+                        "color": "green",
+                        "index": 0
+                      },
+                      "1": {
+                        "text": "Warning",
+                        "color": "yellow",
+                        "index": 1
+                      },
+                      "2": {
+                        "text": "Critical",
+                        "color": "red",
+                        "index": 2
+                      },
+                      "OK": {
+                        "color": "light-green",
+                        "index": 3
+                      },
+                      "Warning": {
+                        "color": "light-yellow",
+                        "index": 4
+                      },
+                      "Critical": {
+                        "color": "light-red",
+                        "index": 5
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true,
+        "footer": {
+          "show": false,
+          "countRows": false,
+          "reducer": [
+            "sum"
+          ],
+          "fields": ""
+        },
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "id"
+          }
+        ]
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}[$__range])",
+          "format": "table",
+          "instant": true,
+          "range": false,
+          "refId": "INFO"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "last_over_time(idrac_pcie_device_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}[$__range])",
+          "format": "table",
+          "instant": true,
+          "range": false,
+          "refId": "HEALTH"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value #INFO": true,
+              "Value #HEALTH": true,
+              "__name__": true,
+              "job": true,
+              "instance": true
+            },
+            "indexByName": {
+              "id": 0,
+              "slot": 1,
+              "name": 2,
+              "model": 3,
+              "manufacturer": 4,
+              "part_number": 5,
+              "serial": 6,
+              "firmware": 7,
+              "status": 8
+            },
+            "renameByName": {
+              "part_number": "part number",
+              "firmware": "firmware"
+            }
+          }
+        }
+      ],
+      "pluginVersion": "11.0.0"
     }
   ],
   "refresh": "30s",
@@ -2850,19 +3351,52 @@
         "type": "query"
       },
       {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "label_values(idrac_system_machine_info{job=~\"$job\"}, group)",
+        "description": "Credential group from the Prometheus scrape config (own-dell, own-lenovo, pesso)",
+        "hide": 0,
+        "includeAll": true,
+        "allValue": ".*",
+        "label": "Group",
+        "multi": true,
+        "name": "group",
+        "options": [],
+        "query": {
+          "query": "label_values(idrac_system_machine_info{job=~\"$job\"}, group)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
         "allValue": ".+",
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(idrac_system_machine_info{job=~\"$job\"},instance)",
+        "definition": "label_values(idrac_system_machine_info{job=~\"$job\", group=~\"$group\"},instance)",
         "hide": 0,
         "includeAll": false,
         "label": "",
         "multi": false,
         "name": "instance",
         "options": [],
-        "query": "label_values(idrac_system_machine_info{job=~\"$job\"},instance)",
+        "query": "label_values(idrac_system_machine_info{job=~\"$job\", group=~\"$group\"},instance)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,

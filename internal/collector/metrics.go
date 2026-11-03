@@ -1067,3 +1067,33 @@ func (mc *Collector) NewPduEnergyKWh(ch chan<- prometheus.Metric, id string, m *
 		id,
 	)
 }
+
+func (mc *Collector) NewPCIeDeviceInfo(ch chan<- prometheus.Metric, d *PCIeDevice) {
+	ch <- prometheus.MustNewConstMetric(
+		mc.PCIeDeviceInfo,
+		prometheus.UntypedValue,
+		1.0,
+		d.Id.String(),
+		d.Name.String(),
+		d.Manufacturer.String(),
+		d.Model.String(),
+		d.PartNumber.String(),
+		d.SerialNumber.String(),
+		d.GetSlot(),
+		d.FirmwareVersion.String(),
+	)
+}
+
+func (mc *Collector) NewPCIeDeviceHealth(ch chan<- prometheus.Metric, d *PCIeDevice) {
+	value := health2value(d.Status.Health)
+	if value < 0 {
+		return
+	}
+	ch <- prometheus.MustNewConstMetric(
+		mc.PCIeDeviceHealth,
+		prometheus.GaugeValue,
+		float64(value),
+		d.Id.String(),
+		d.Status.Health,
+	)
+}

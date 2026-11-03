@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/mrlhansen/idrac_exporter/internal/config"
+	"github.com/mrlhansen/idrac_exporter/internal/log"
 )
 
 type EventLog struct {
@@ -26,7 +27,10 @@ func (client *Client) QueryEventLog(path string, config *config.EventConfig) (*E
 		return nil, true
 	}
 
-	if client.features.Filter {
+	query := path
+	_, unsupported := client.noFilter.Load(path)
+
+	if client.features.Filter && !unsupported {
 		filter := url.Values{}
 
 		switch config.SeverityLevel {
@@ -37,12 +41,25 @@ func (client *Client) QueryEventLog(path string, config *config.EventConfig) (*E
 		}
 
 		if s := filter.Encode(); len(s) > 0 {
-			path = path + "?" + s
+			query = path + "?" + s
 		}
 	}
 
 	resp := &EventLogResponse{}
-	ok := client.redfish.Get(path, resp)
+	ok := client.redfish.Get(query, resp)
+
+	// Some BMCs advertise filter support, but reject filtered queries on certain
+	// logs (e.g. the iDRAC Lifecycle log returns 501). Retry once without filter
+	// and remember the path, since the entries are filtered in Items() anyway.
+	if !ok && query != path {
+		resp = &EventLogResponse{}
+		ok = client.redfish.Get(path, resp)
+		if ok {
+			client.noFilter.Store(path, true)
+			log.Info("Filtered query not supported for %s, using unfiltered queries", path)
+		}
+	}
+
 	if !ok {
 		return nil, false
 	}

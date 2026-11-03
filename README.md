@@ -251,6 +251,16 @@ idrac_dell_battery_rollup_health{status}
 idrac_dell_estimated_system_airflow_cfm
 ```
 
+### PCIe Devices
+These metrics include inventory and health information about PCIe devices, such as GPUs, network adapters and NVMe drives. The devices are discovered from the `PCIeDevices` links of the system and the `PCIeDevices` collections of the chassis. Unknown values (`null` or `N/A`) are exported as empty labels, and the `slot` label contains the slot service label (e.g. `PCIe 3`) when available, otherwise the device id. Devices without any identifying inventory data (manufacturer, model, part number and serial) are skipped. Note that each device requires a separate request, which can increase the scrape duration considerably on systems with many devices.
+
+```text
+idrac_pcie_device_info{firmware,id,manufacturer,model,name,part_number,serial,slot}
+idrac_pcie_device_health{id,status}
+```
+
+For example, the GPUs can be selected using a label matcher such as `idrac_pcie_device_info{manufacturer=~"NVIDIA.*",name!~".*(ConnectX|BlueField).*"}`.
+
 ### Exporter
 These metrics contain information about the exporter itself, such as build information and how many errors that have been encountered when scraping the Redfish API.
 

@@ -7,6 +7,8 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"sync"
+	"sync/atomic"
 
 	"github.com/mrlhansen/idrac_exporter/internal/config"
 	"github.com/prometheus/client_golang/prometheus"
@@ -49,11 +51,13 @@ type Client struct {
 		ManagerEvent     string
 		Extra            []string
 		RackPDUs         []string
+		PCIeDevices      []string
 	}
 	features struct {
 		ExpandLevels bool
 		Filter       bool
 	}
+	noFilter sync.Map // event log paths that reject $filter queries
 }
 
 func NewClient(host string, config *config.AuthConfig) *Client {
@@ -108,6 +112,37 @@ func (client *Client) hasStorageDrives() bool {
 		}
 	}
 	return false
+}
+
+// findPCIeCollections returns the PCIeDevices collections of all chassis. When
+// the primary chassis does not advertise a collection, the conventional path
+// below it is tried once. Chassis that cannot be read are skipped.
+func (client *Client) findPCIeCollections(group *GroupResponse, primary string, primaryChassis *ChassisResponse) []string {
+	list := []string{}
+
+	for _, c := range group.Members.GetLinks() {
+		chassis := primaryChassis
+		if c != primary {
+			chassis = &ChassisResponse{}
+			if !client.redfish.Get(c, chassis) {
+				continue
+			}
+		}
+
+		if link := chassis.PCIeDevices.OdataId; link != "" {
+			list = append(list, link)
+			continue
+		}
+
+		if c == primary {
+			link := strings.TrimSuffix(c, "/") + "/PCIeDevices"
+			if client.redfish.Get(link, &GroupResponse{}) {
+				list = append(list, link)
+			}
+		}
+	}
+
+	return list
 }
 
 func (client *Client) findAllEndpoints() bool {
@@ -171,6 +206,11 @@ func (client *Client) findAllEndpoints() bool {
 	ok = client.redfish.Get(path, &chassis)
 	if !ok {
 		return false
+	}
+
+	// PCIe devices
+	if client.metrics.PCIe.Enabled {
+		client.path.PCIeDevices = client.findPCIeCollections(&group, path, &chassis)
 	}
 
 	// Paths
@@ -1168,6 +1208,77 @@ func (client *Client) RefreshDell(mc *Collector, ch chan<- prometheus.Metric) bo
 	}
 
 	return result
+}
+
+// RefreshPCIeDevices emits inventory and health metrics for all PCIe devices.
+// Devices are discovered on every scrape, from the PCIeDevices links of the
+// system and from the chassis collections, since the set of devices can be
+// empty or change while the host is powered off. A failing request is counted
+// as a scrape error, but does not prevent the other devices from being exported.
+func (client *Client) RefreshPCIeDevices(mc *Collector, ch chan<- prometheus.Metric) bool {
+	result := true
+	links := OdataSlice{}
+
+	if client.path.System != "" {
+		system := SystemResponse{}
+		if client.redfish.Get(client.path.System, &system) {
+			links = append(links, system.PCIeDevices...)
+		} else {
+			result = false
+		}
+	}
+
+	for _, path := range client.path.PCIeDevices {
+		group := GroupResponse{}
+		if client.redfish.Get(path, &group) {
+			links = append(links, group.Members...)
+		} else {
+			result = false
+		}
+	}
+
+	var wg sync.WaitGroup
+	var failed atomic.Bool
+
+	// Requests are bounded by the concurrency limit of the Redfish client
+	for _, link := range uniquePCIeLinks(links) {
+		wg.Go(func() {
+			dev := PCIeDevice{}
+			if !client.redfish.Get(link, &dev) {
+				failed.Store(true)
+				return
+			}
+
+			dev.Normalize()
+			if dev.Status.State == StateAbsent || dev.IsInventoryEmpty() {
+				return
+			}
+
+			mc.NewPCIeDeviceInfo(ch, &dev)
+			mc.NewPCIeDeviceHealth(ch, &dev)
+		})
+	}
+
+	wg.Wait()
+	return result && !failed.Load()
+}
+
+// uniquePCIeLinks de-duplicates device links (ignoring trailing slashes),
+// preserving the order in which they were first seen.
+func uniquePCIeLinks(links OdataSlice) []string {
+	list := []string{}
+	seen := map[string]bool{}
+
+	for _, l := range links {
+		s := strings.TrimSuffix(l.OdataId, "/")
+		if s == "" || seen[s] {
+			continue
+		}
+		seen[s] = true
+		list = append(list, l.OdataId)
+	}
+
+	return list
 }
 
 func (client *Client) RefreshPDUs(mc *Collector, ch chan<- prometheus.Metric) bool {

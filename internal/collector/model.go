@@ -3,6 +3,7 @@ package collector
 import (
 	"encoding/json"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -204,6 +205,7 @@ type ChassisResponse struct {
 	} `json:"Location"`
 	Memory           Odata  `json:"Memory"`
 	NetworkAdapters  Odata  `json:"NetworkAdapters"`
+	PCIeDevices      Odata  `json:"PCIeDevices"`
 	PCIeSlots        Odata  `json:"PCIeSlots"`
 	Power            Odata  `json:"Power"`
 	PowerSubsystem   Odata  `json:"PowerSubsystem"`
@@ -987,4 +989,62 @@ type PowerDistributionMetrics struct {
 		DataSourceUri string  `json:"DataSourceUri"`
 		Reading       float64 `json:"Reading"`
 	} `json:"EnergykWh"`
+}
+
+// PCIeDevice represents a member of a PCIeDevices collection. All string
+// fields use xstring, since BMCs report null for unknown values (e.g. iDRAC
+// and Lenovo XCC), and some report the literal string "N/A" (Lenovo XCC).
+type PCIeDevice struct {
+	OdataId         string  `json:"@odata.id"`
+	Id              xstring `json:"Id"`
+	Name            xstring `json:"Name"`
+	Model           xstring `json:"Model"`
+	Manufacturer    xstring `json:"Manufacturer"`
+	PartNumber      xstring `json:"PartNumber"`
+	SKU             xstring `json:"SKU"`
+	SerialNumber    xstring `json:"SerialNumber"`
+	FirmwareVersion xstring `json:"FirmwareVersion"`
+	Status          Status  `json:"Status"`
+	Slot            *struct {
+		Location *struct {
+			PartLocation *struct {
+				ServiceLabel xstring `json:"ServiceLabel"`
+			} `json:"PartLocation"`
+		} `json:"Location"`
+	} `json:"Slot"`
+}
+
+// cleanInventoryValue trims whitespace and maps placeholder values for
+// unknown data to the empty string.
+func cleanInventoryValue(s xstring) xstring {
+	v := strings.TrimSpace(string(s))
+	if strings.EqualFold(v, "N/A") {
+		return ""
+	}
+	return xstring(v)
+}
+
+// Normalize cleans all inventory fields in place.
+func (d *PCIeDevice) Normalize() {
+	for _, f := range []*xstring{&d.Id, &d.Name, &d.Model, &d.Manufacturer, &d.PartNumber, &d.SKU, &d.SerialNumber, &d.FirmwareVersion} {
+		*f = cleanInventoryValue(*f)
+	}
+}
+
+// GetSlot returns the service label of the slot (e.g. "PCIe 3") when the
+// device reports one, otherwise it falls back to the device id.
+func (d *PCIeDevice) GetSlot() string {
+	if d.Slot != nil && d.Slot.Location != nil && d.Slot.Location.PartLocation != nil {
+		if s := cleanInventoryValue(d.Slot.Location.PartLocation.ServiceLabel); s != "" {
+			return string(s)
+		}
+	}
+	return string(d.Id)
+}
+
+// IsInventoryEmpty returns true when the device carries no identifying
+// inventory data, e.g. placeholder entries such as "ob_1" on Lenovo XCC that
+// only have a generic name. Normalize() must be called first.
+func (d *PCIeDevice) IsInventoryEmpty() bool {
+	return d.Manufacturer == "" && d.Model == "" && d.PartNumber == "" && d.SerialNumber == ""
 }

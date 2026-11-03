@@ -52,6 +52,9 @@ func AuthIsEqual(a, b *AuthConfig) bool {
 	if a.Metrics.Storage.Enabled != b.Metrics.Storage.Enabled {
 		return false
 	}
+	if a.Metrics.PCIe.Enabled != b.Metrics.PCIe.Enabled {
+		return false
+	}
 	return true
 }
 
@@ -236,6 +239,7 @@ func (c *RootConfig) Validate() error {
 		c.Metrics.Processors.Enabled = true
 		c.Metrics.Manager.Enabled = true
 		c.Metrics.Extra.Enabled = true
+		c.Metrics.PCIe.Enabled = true
 	}
 
 	// hosts

@@ -53,7 +53,7 @@ func (w *xstring) UnmarshalJSON(data []byte) error {
 
 	// strange iDRAC case
 	list, ok := x.([]any)
-	if !ok {
+	if !ok || len(list) == 0 {
 		return nil
 	}
 

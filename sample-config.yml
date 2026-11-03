@@ -151,3 +151,5 @@ metrics:
       maxage: 7d         # CONFIG_METRICS_MANAGER_EVENTS_MAXAGE=7d
   extra:
     enabled: false       # CONFIG_METRICS_EXTRA_ENABLED=false
+  pcie:
+    enabled: false       # CONFIG_METRICS_PCIE_ENABLED=false

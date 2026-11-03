@@ -1,0 +1,199 @@
+{
+  "/redfish/v1/Systems/1": {
+    "@odata.id": "/redfish/v1/Systems/1",
+    "Id": "1",
+    "Manufacturer": "Lenovo",
+    "PCIeDevices": [
+      {
+        "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/ob_1"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/slot_1"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/slot_3"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/slot_30"
+      }
+    ]
+  },
+  "/redfish/v1/Chassis": {
+    "@odata.id": "/redfish/v1/Chassis",
+    "Members": [
+      {
+        "@odata.id": "/redfish/v1/Chassis/1"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/3"
+      }
+    ]
+  },
+  "/redfish/v1/Chassis/1": {
+    "@odata.id": "/redfish/v1/Chassis/1",
+    "Id": "1",
+    "ChassisType": "RackMount",
+    "PCIeDevices": {
+      "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices"
+    }
+  },
+  "/redfish/v1/Chassis/3": {
+    "@odata.id": "/redfish/v1/Chassis/3",
+    "Id": "3",
+    "ChassisType": "Enclosure"
+  },
+  "/redfish/v1/Chassis/1/PCIeDevices": {
+    "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices",
+    "@odata.type": "#PCIeDeviceCollection.PCIeDeviceCollection",
+    "Name": "PCIe Device Collection",
+    "Members@odata.count": 4,
+    "Members": [
+      {
+        "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/ob_1"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/slot_1"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/slot_3"
+      },
+      {
+        "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/slot_30"
+      }
+    ]
+  },
+  "/redfish/v1/Chassis/1/PCIeDevices/ob_1": {
+    "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/ob_1",
+    "@odata.type": "#PCIeDevice.v1_19_0.PCIeDevice",
+    "Id": "ob_1",
+    "Name": "Adapter",
+    "Description": "This resource represents the properties of a PCIeDevice attached to a System.",
+    "DeviceType": "SingleFunction",
+    "Model": null,
+    "Manufacturer": null,
+    "PartNumber": null,
+    "SKU": null,
+    "SerialNumber": null,
+    "FirmwareVersion": null,
+    "Status": {
+      "State": "Enabled",
+      "Health": "OK"
+    },
+    "Slot": {
+      "Location": {
+        "PartLocation": {
+          "ServiceLabel": "OnBoard",
+          "LocationType": "Slot",
+          "LocationOrdinalValue": 1
+        },
+        "InfoFormat": "OnBoard",
+        "Info": "OnBoard"
+      }
+    }
+  },
+  "/redfish/v1/Chassis/1/PCIeDevices/slot_1": {
+    "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/slot_1",
+    "@odata.type": "#PCIeDevice.v1_19_0.PCIeDevice",
+    "Id": "slot_1",
+    "Name": "Nvidia ConnectX-7 NDR400 OSFP 1-port PCIe Gen5 Adapter",
+    "Description": "This resource represents the properties of a PCIeDevice attached to a System.",
+    "DeviceType": "SingleFunction",
+    "Model": "CX75510AAS-NEAT",
+    "Manufacturer": "Mellanox Technologies",
+    "PartNumber": "SN37B04254",
+    "SKU": "03GX655",
+    "SerialNumber": "TESTSN0001",
+    "FirmwareVersion": "28.39.1002",
+    "Status": {
+      "State": "Enabled",
+      "Health": "OK"
+    },
+    "Slot": {
+      "Location": {
+        "Info": "Slot 1",
+        "PartLocation": {
+          "ServiceLabel": "PCIe 1",
+          "LocationType": "Slot",
+          "LocationOrdinalValue": 1
+        },
+        "InfoFormat": "Slot X"
+      }
+    },
+    "PCIeInterface": {
+      "MaxPCIeType": "Gen5",
+      "MaxLanes": 16,
+      "PCIeType": "Gen5",
+      "LanesInUse": 16
+    }
+  },
+  "/redfish/v1/Chassis/1/PCIeDevices/slot_3": {
+    "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/slot_3",
+    "@odata.type": "#PCIeDevice.v1_19_0.PCIeDevice",
+    "Id": "slot_3",
+    "Name": "NVIDIA L40S",
+    "Description": "This resource represents the properties of a PCIeDevice attached to a System.",
+    "DeviceType": "SingleFunction",
+    "Model": "NVIDIA L40S",
+    "Manufacturer": "NVIDIA",
+    "PartNumber": "26B9-896-A1",
+    "SKU": "26B9-896-A1",
+    "SerialNumber": "TESTSN0002",
+    "FirmwareVersion": "95.02.66.00.02",
+    "Status": {
+      "State": "Enabled",
+      "Health": "OK"
+    },
+    "Slot": {
+      "Location": {
+        "Info": "Slot 3",
+        "PartLocation": {
+          "LocationType": "Slot",
+          "ServiceLabel": "PCIe 3",
+          "LocationOrdinalValue": 3
+        },
+        "InfoFormat": "Slot X"
+      }
+    },
+    "PCIeInterface": {
+      "LanesInUse": 16,
+      "MaxPCIeType": "Gen4",
+      "MaxLanes": 16,
+      "PCIeType": "Gen4"
+    }
+  },
+  "/redfish/v1/Chassis/1/PCIeDevices/slot_30": {
+    "@odata.id": "/redfish/v1/Chassis/1/PCIeDevices/slot_30",
+    "@odata.type": "#PCIeDevice.v1_19_0.PCIeDevice",
+    "Id": "slot_30",
+    "Name": "ThinkSystem SR675 V3 Switched 4x x16 PCIe DW GPU Direct RDMA Riser Controller",
+    "Description": "This resource represents the properties of a PCIeDevice attached to a System.",
+    "DeviceType": "SingleFunction",
+    "Model": "N/A",
+    "Manufacturer": "Lenovo",
+    "PartNumber": "N/A",
+    "SKU": "N/A",
+    "SerialNumber": "N/A",
+    "FirmwareVersion": "04.12.00.13",
+    "Status": {
+      "State": "Enabled",
+      "Health": "OK"
+    },
+    "Slot": {
+      "Location": {
+        "PartLocation": {
+          "LocationType": "Slot",
+          "LocationOrdinalValue": 30,
+          "ServiceLabel": "PCIe 30"
+        },
+        "Info": "Slot 30",
+        "InfoFormat": "Slot X"
+      }
+    },
+    "PCIeInterface": {
+      "PCIeType": "Gen5",
+      "LanesInUse": 16,
+      "MaxPCIeType": "Gen5",
+      "MaxLanes": 16
+    }
+  }
+}

@@ -31,7 +31,7 @@ func getEnv[T envType](env string, val *T) {
 		if err != nil {
 			return
 		}
-		*val = any(value).(T)
+		*val = any(uint(value)).(T)
 	}
 }
 
@@ -81,6 +81,7 @@ func (c *RootConfig) FromEnvironment() {
 	getEnv("CONFIG_METRICS_MANAGER_EVENTS_SEVERITY", &m.Manager.Events.Severity)
 	getEnv("CONFIG_METRICS_MANAGER_EVENTS_MAXAGE", &m.Manager.Events.MaxAge)
 	getEnv("CONFIG_METRICS_EXTRA_ENABLED", &m.Extra.Enabled)
+	getEnv("CONFIG_METRICS_PCIE_ENABLED", &m.PCIe.Enabled)
 
 	if len(def.Username) > 0 && len(def.Password) > 0 {
 		c.Hosts["default"] = def
