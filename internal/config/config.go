@@ -4,6 +4,8 @@ import (
 	"encoding/base64"
 	"fmt"
 	"os"
+	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/goccy/go-yaml"
@@ -152,6 +154,12 @@ func GetAuthConfig(target, group string) *AuthConfig {
 		return host
 	}
 
+	if name, ok := Config.targetGroups[target]; ok {
+		if host, ok = Config.Groups[name]; ok {
+			return host
+		}
+	}
+
 	host, ok = Config.Hosts["default"]
 	if !ok {
 		log.Error("Could not find login credentials: host=%s", target)
@@ -256,7 +264,68 @@ func (c *RootConfig) Validate() error {
 		if err != nil {
 			return fmt.Errorf("group=%s: %v", k, err)
 		}
+		v.TargetList, err = expandTargets(v.Targets)
+		if err != nil {
+			return fmt.Errorf("group=%s: %v", k, err)
+		}
 	}
 
+	return c.IndexTargets()
+}
+
+// IndexTargets builds the lookup table from target to group. A target must
+// belong to at most one group and must not also be listed under hosts, since
+// the credentials would otherwise be ambiguous.
+func (c *RootConfig) IndexTargets() error {
+	index := map[string]string{}
+	for name, g := range c.Groups {
+		for _, t := range g.TargetList {
+			if other, ok := index[t]; ok {
+				return fmt.Errorf("target %s is listed in group %s and group %s", t, other, name)
+			}
+			if _, ok := c.Hosts[t]; ok {
+				return fmt.Errorf("target %s is listed in group %s and under hosts", t, name)
+			}
+			index[t] = name
+		}
+	}
+	c.targetGroups = index
 	return nil
+}
+
+var targetRange = regexp.MustCompile(`^(\d+\.\d+\.\d+\.)(\d+)-(\d+)$`)
+
+// expandTargets expands entries of the form "10.1.160.11-74" (a range of the
+// last IPv4 octet) into individual targets. Other entries are used as-is.
+func expandTargets(list []string) ([]string, error) {
+	out := []string{}
+	seen := map[string]bool{}
+	add := func(t string) {
+		if !seen[t] {
+			seen[t] = true
+			out = append(out, t)
+		}
+	}
+
+	for _, entry := range list {
+		entry = strings.TrimSpace(entry)
+		if entry == "" {
+			continue
+		}
+		m := targetRange.FindStringSubmatch(entry)
+		if m == nil {
+			add(entry)
+			continue
+		}
+		from, _ := strconv.Atoi(m[2])
+		to, _ := strconv.Atoi(m[3])
+		if from > to || to > 255 {
+			return nil, fmt.Errorf("invalid target range: %s", entry)
+		}
+		for i := from; i <= to; i++ {
+			add(m[1] + strconv.Itoa(i))
+		}
+	}
+
+	return out, nil
 }

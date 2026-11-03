@@ -106,10 +106,24 @@ hosts:
 # define credentials for a group of hosts. When scraping a target you can
 # reference the group via the "group" query parameter. This is similar to what
 # the SNMP exporter does.
+#
+# Optionally a group can list its "targets". These targets are returned by the
+# /discover endpoint with the labels group="<name>" and __param_group="<name>",
+# so Prometheus automatically passes the group parameter when scraping them.
+# A target that is scraped without the group parameter also uses the
+# credentials of the group it is listed in. Ranges of the last IPv4 octet can
+# be written as "192.168.2.10-20". A target can only be listed in one group and
+# not also under hosts.
 groups:
   mygroup:
     username: user
     password: pass
+  rack2:
+    username: user
+    password: pass
+    targets:
+      - 192.168.2.10-20
+      - bmc01.example.com
 
 # The metrics section is used to globally enable different groups of
 # metrics. You can override the global configuration for individual

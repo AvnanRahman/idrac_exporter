@@ -91,10 +91,19 @@ func ReloadConfig(filename string, expand bool) {
 				collector.ResetAuth(h)
 			} else {
 				h.Metrics = v.Metrics
+				h.Targets = v.Targets
+				h.TargetList = v.TargetList
 			}
 		} else {
 			old.Groups[k] = v
 		}
+	}
+
+	// Hosts and groups are never removed during reload, so a target can end up
+	// in multiple groups when it was moved; the error is only logged and the
+	// previous mapping stays in effect for that target.
+	if err := old.IndexTargets(); err != nil {
+		log.Error("Target mapping after reload: %v", err)
 	}
 
 	log.Info("Configuration reload was successful")

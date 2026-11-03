@@ -21,6 +21,8 @@ type AuthConfig struct {
 	HTTP       HttpConfig      `yaml:"http"`
 	RawMetrics yaml.RawMessage `yaml:"metrics"`
 	Metrics    MetricsConfig   `yaml:"-"`
+	Targets    []string        `yaml:"targets"` // groups only: targets for /discover
+	TargetList []string        `yaml:"-"`       // expanded list of targets
 }
 
 type EventConfig struct {
@@ -89,4 +91,5 @@ type RootConfig struct {
 	Concurrency   uint                   `yaml:"concurrency"`
 	Hosts         map[string]*AuthConfig `yaml:"hosts"`
 	Groups        map[string]*AuthConfig `yaml:"groups"`
+	targetGroups  map[string]string      // target -> group, built from the group targets
 }

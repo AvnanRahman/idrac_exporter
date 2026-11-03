@@ -2,6 +2,8 @@ package config
 
 import (
 	"encoding/json"
+	"maps"
+	"slices"
 
 	"github.com/mrlhansen/idrac_exporter/internal/log"
 )
@@ -19,6 +21,23 @@ func GetDiscover() string {
 		}
 		list = append(list, DiscoverItem{
 			Targets: []string{t},
+		})
+	}
+
+	// Targets of groups are returned with the group as label and as "group"
+	// query parameter (via the special __param_ label), which selects the
+	// credentials of the group when the target is scraped.
+	for _, name := range slices.Sorted(maps.Keys(Config.Groups)) {
+		g := Config.Groups[name]
+		if len(g.TargetList) == 0 {
+			continue
+		}
+		list = append(list, DiscoverItem{
+			Targets: g.TargetList,
+			Labels: map[string]string{
+				"group":         name,
+				"__param_group": name,
+			},
 		})
 	}
 

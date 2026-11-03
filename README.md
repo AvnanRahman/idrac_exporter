@@ -79,6 +79,8 @@ As shown in the example above, under `hosts` you can define credentials for indi
 http://localhost:9348/metrics?target=192.168.10.10&group=mygroup
 ```
 
+A group can also list its `targets` (single hosts or ranges of the last IPv4 octet, such as `192.168.2.10-20`). These targets are returned by the `/discover` endpoint with the labels `group="<name>"` and `__param_group="<name>"`, which makes Prometheus pass the `group` parameter automatically and adds the group as label to all metrics of the target. A target without `group` parameter also uses the credentials of the group it is listed in.
+
 You can combine `hosts` and `groups` in any way that fits your environment. The login user only needs read-only permissions and it is recommended to create a dedicated unpriviledged user for the exporter.
 
 **For a detailed description of the configuration, please see the [sample-config.yml](sample-config.yml) file. In this file you can also find the corresponding environment variables for the different configuration options.**
