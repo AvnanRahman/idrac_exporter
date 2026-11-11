@@ -1216,31 +1216,43 @@ func (client *Client) RefreshDell(mc *Collector, ch chan<- prometheus.Metric) bo
 // empty or change while the host is powered off. A failing request is counted
 // as a scrape error, but does not prevent the other devices from being exported.
 func (client *Client) RefreshPCIeDevices(mc *Collector, ch chan<- prometheus.Metric) bool {
-	result := true
-	links := OdataSlice{}
-
-	if client.path.System != "" {
-		system := SystemResponse{}
-		if client.redfish.Get(client.path.System, &system) {
-			links = append(links, system.PCIeDevices...)
-		} else {
-			result = false
-		}
-	}
-
-	for _, path := range client.path.PCIeDevices {
-		group := GroupResponse{}
-		if client.redfish.Get(path, &group) {
-			links = append(links, group.Members...)
-		} else {
-			result = false
-		}
-	}
-
 	var wg sync.WaitGroup
 	var failed atomic.Bool
 
-	// Requests are bounded by the concurrency limit of the Redfish client
+	// The system and the collections are queried concurrently, since systems
+	// with an NVIDIA HGX baseboard expose a collection per component (50+).
+	// Requests are bounded by the concurrency limit of the Redfish client.
+	found := make([]OdataSlice, len(client.path.PCIeDevices)+1)
+
+	if client.path.System != "" {
+		wg.Go(func() {
+			system := SystemResponse{}
+			if client.redfish.Get(client.path.System, &system) {
+				found[0] = system.PCIeDevices
+			} else {
+				failed.Store(true)
+			}
+		})
+	}
+
+	for i, path := range client.path.PCIeDevices {
+		wg.Go(func() {
+			group := GroupResponse{}
+			if client.redfish.Get(path, &group) {
+				found[i+1] = group.Members
+			} else {
+				failed.Store(true)
+			}
+		})
+	}
+
+	wg.Wait()
+
+	links := OdataSlice{}
+	for _, l := range found {
+		links = append(links, l...)
+	}
+
 	for _, link := range uniquePCIeLinks(links) {
 		wg.Go(func() {
 			dev := PCIeDevice{}
@@ -1260,7 +1272,7 @@ func (client *Client) RefreshPCIeDevices(mc *Collector, ch chan<- prometheus.Met
 	}
 
 	wg.Wait()
-	return result && !failed.Load()
+	return !failed.Load()
 }
 
 // uniquePCIeLinks de-duplicates device links (ignoring trailing slashes),

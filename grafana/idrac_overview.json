@@ -2063,7 +2063,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "count(count by (job, instance, id) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range])))",
+          "expr": "count(count by (job, instance, id) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\"}[$__range])))",
           "format": "time_series",
           "instant": true,
           "range": false,
@@ -2130,7 +2130,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "count(count by (job, instance) (count by (job, instance, id) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range]))) != 8) or vector(0)",
+          "expr": "count(count by (job, instance) (count by (job, instance, id) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\"}[$__range]))) != 8) or vector(0)",
           "format": "time_series",
           "instant": true,
           "range": false,
@@ -2197,7 +2197,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "count((last_over_time(idrac_pcie_device_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}[$__range]) * on (job, instance, id) group_left (name, slot) max by (job, instance, id, name, slot) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range]))) > 0) or vector(0)",
+          "expr": "count((last_over_time(idrac_pcie_device_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}[$__range]) * on (job, instance, id) group_left (name, slot) max by (job, instance, id, name, slot) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\"}[$__range]))) > 0) or vector(0)",
           "format": "time_series",
           "instant": true,
           "range": false,
@@ -2260,15 +2260,16 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "count by (name) (count by (job, instance, id, name) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range])))",
+          "expr": "count by (model) (count by (job, instance, id, model) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\", model!=\"\"}[$__range]) or label_replace(last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\", model=\"\"}[$__range]), \"model\", \"$1\", \"name\", \"(.+)\")))",
           "format": "time_series",
           "instant": true,
           "range": false,
           "refId": "A",
-          "legendFormat": "{{name}}"
+          "legendFormat": "{{model}}"
         }
       ],
-      "pluginVersion": "11.0.0"
+      "pluginVersion": "11.0.0",
+      "description": "GPUs per model. Devices without a model (e.g. older Lenovo XCC firmware) are grouped by their name."
     },
     {
       "datasource": {
@@ -2316,7 +2317,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "count by (serial) (count by (job, instance, id, serial) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", serial!=\"\"}[$__range]))) > 1",
+          "expr": "count by (serial) (count by (job, instance, id, serial) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\", serial!=\"\"}[$__range]))) > 1",
           "format": "table",
           "instant": true,
           "range": false,
@@ -2398,7 +2399,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sort(count by (instance) (count by (job, instance, id) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range]))))",
+          "expr": "sort(count by (instance) (count by (job, instance, id) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\"}[$__range]))))",
           "format": "time_series",
           "instant": true,
           "range": false,
@@ -2461,7 +2462,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range])",
+          "expr": "last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\"}[$__range])",
           "format": "table",
           "instant": true,
           "range": false,

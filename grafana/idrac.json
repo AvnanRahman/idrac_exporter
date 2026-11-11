@@ -2866,7 +2866,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "count(count by (job, instance, id) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range])))",
+          "expr": "count(count by (job, instance, id) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\"}[$__range])))",
           "format": "time_series",
           "instant": true,
           "range": false,
@@ -2933,7 +2933,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "count((last_over_time(idrac_pcie_device_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}[$__range]) * on (job, instance, id) group_left (name, slot) max by (job, instance, id, name, slot) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range]))) > 0) or vector(0)",
+          "expr": "count((last_over_time(idrac_pcie_device_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"}[$__range]) * on (job, instance, id) group_left (name, slot) max by (job, instance, id, name, slot) (last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\"}[$__range]))) > 0) or vector(0)",
           "format": "time_series",
           "instant": true,
           "range": false,
@@ -2995,7 +2995,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"}[$__range])",
+          "expr": "last_over_time(idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\"}[$__range])",
           "format": "table",
           "instant": true,
           "range": false,
@@ -3127,7 +3127,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "idrac_pcie_device_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"} * on (job, instance, id) group_left (name, slot) max by (job, instance, id, name, slot) (idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\"})",
+          "expr": "idrac_pcie_device_health{job=~\"$job\", group=~\"$group\", instance=~\"$instance\"} * on (job, instance, id) group_left (name, slot) max by (job, instance, id, name, slot) (idrac_pcie_device_info{job=~\"$job\", group=~\"$group\", instance=~\"$instance\", manufacturer=~\"NVIDIA.*\", name!~\".*(ConnectX|BlueField|NVSwitch).*\", model!~\".*(ConnectX|BlueField|NVSwitch|NVLink).*\"})",
           "format": "time_series",
           "instant": false,
           "range": true,

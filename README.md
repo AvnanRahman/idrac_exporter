@@ -261,7 +261,7 @@ idrac_pcie_device_info{firmware,id,manufacturer,model,name,part_number,serial,sl
 idrac_pcie_device_health{id,status}
 ```
 
-For example, the GPUs can be selected using a label matcher such as `idrac_pcie_device_info{manufacturer=~"NVIDIA.*",name!~".*(ConnectX|BlueField).*"}`.
+For example, the GPUs can be selected using a label matcher such as `idrac_pcie_device_info{manufacturer=~"NVIDIA.*",name!~".*(ConnectX|BlueField).*",model!~".*(ConnectX|BlueField|NVLink).*"}`. Both `name` and `model` are matched, since some BMCs (e.g. NVIDIA HGX baseboards) report the generic name "PCIe Device" for all devices.
 
 ### Exporter
 These metrics contain information about the exporter itself, such as build information and how many errors that have been encountered when scraping the Redfish API.
